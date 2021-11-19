@@ -104,14 +104,6 @@ if(!dir.exists(paths = paste0('Figures/Comparison/National'))){
   dir.create(path = paste0('Figures/Comparison/National'))
 }
 
-if(!dir.exists(paths = paste0('Figures/Comparison/Admin-1'))){
-  dir.create(path = paste0('Figures/Comparison/Admin-1'))
-}
-
-if(!dir.exists(paths = paste0('Figures/Comparison/Admin-2'))){
-  dir.create(path = paste0('Figures/Comparison/Admin-2'))
-}
-
 ###################################################################################
 #########  Load national level models
 ###################################################################################

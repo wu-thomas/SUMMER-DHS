@@ -5,8 +5,6 @@ rm(list = ls())
 
 #### Libraries ####
 library(SUMMER)
-#help(package = "SUMMER", help_type = "html")
-#utils::browseVignettes(package = "SUMMER")
 library(classInt)
 library(RColorBrewer)
 library(dplyr)
@@ -422,8 +420,9 @@ ggsave(g2, width=8, height = 10, file = paste0("Figures/Report/", country, "-tre
 # We plot our U5MR estimates versus years fitted by beta-binomial model at admin2 level.
 
 range_adm2 <- range(c(admin2_res_merged$median, admin2_res_merged$median)) * 1000
-
-g3 <- plot(admin2_res_merged, plot.CI = FALSE, dodge.width = 0.5, proj_year = end.year + 1, per1000=TRUE) +
+admin2_trend_plot <- admin2_res_merged
+admin2_trend_plot$region <- res.strat.admin2$overall$region
+g3 <- plot(admin2_trend_plot, plot.CI = FALSE, dodge.width = 0.5, proj_year = end.year + 1, per1000=TRUE) +
   theme(legend.position = 'none') + scale_linetype(guide='none')+
   theme(plot.title = element_text(hjust = 0.5))+
   scale_x_continuous(breaks = c(beg.year:end.year))+
@@ -442,8 +441,8 @@ ggsave(g3, width=10, height = 8, file = paste0("Figures/Report/", country, "-tre
 # We compute the probability our U5MR estimates fitted by beta-binoimial model exceed the national direct estimate for the latest year
 
 # set parameters
-plot.year <- end.year # also the last year
-first.year <- beg.year +2  # end of the first 3-year window
+plot.year <- sd.year[length(sd.year)] + 1 # last year of the last 3-year window
+first.year <- sd.year[1] + 1             # last year of the first 3-year windows
 
 
 # prepare grouping 
@@ -1144,10 +1143,10 @@ for(K in K_vt){
 # We plot the 3-year aggregated estimate on the map at admin1 level.
 setwd(paste0(res_dir,'/',country))
 
+last_window = paste0(sd.year[length(sd.year)] - 1,'-',sd.year[length(sd.year)] + 1)
 ### Direct estimate admin1 most recent 3-year window (direct.admin1)
 load(paste0('Direct/',country,'_direct_admin1.rda'))
-direct.admin1<-direct.admin1[direct.admin1$region!='All'&
-                               direct.admin1$years==paste0(end.year-2,'-',end.year),]
+direct.admin1<-direct.admin1[direct.admin1$region!='All'& direct.admin1$years == last_window,]
 
 direct.admin1.merged<-merge(direct.admin1, admin1.names, 
                          by.x=c("region"),
@@ -1157,8 +1156,7 @@ direct.admin1.merged$region<-direct.admin1.merged$GADM
 ### Smoothed direct estimate admin1 most recent 3-year window (res.admin1)
 load(paste0('Smooth_Direct/',country,'_res_admin1_SmoothedDirect.rda'))
 sd.admin1 <- res.admin1$results
-sd.admin1<-sd.admin1[sd.admin1$region!='All'&
-                       sd.admin1$years==paste0(end.year-2,'-',end.year),]
+sd.admin1<-sd.admin1[sd.admin1$region!='All'& sd.admin1$years == last_window,]
 
 
 ### set range 
@@ -1190,12 +1188,12 @@ g9b <- g9b +
                                 title='U5MR (deaths per 1000 live births)',
                                 label.position = "bottom"))
 
-ggsave(g9a, width=8, height = 10, file = paste0("Figures/Report/", country, "-",end.year-2,'-',end.year, "-admin1-direct-map.tiff"))
-ggsave(g9a, width=8, height = 10, file = paste0("Figures/Report/", country, "-",end.year-2,'-',end.year, "-admin1-direct-map.pdf"))
+ggsave(g9a, width=8, height = 10, file = paste0("Figures/Report/", country, "-",last_window, "-admin1-direct-map.tiff"))
+ggsave(g9a, width=8, height = 10, file = paste0("Figures/Report/", country, "-",last_window, "-admin1-direct-map.pdf"))
 
 
-ggsave(g9b, width=8, height = 10, file = paste0("Figures/Report/", country, "-",end.year-2,'-',end.year, "-admin1-smoothed-direct-map.tiff"))
-ggsave(g9b, width=8, height = 10, file = paste0("Figures/Report/", country, "-",end.year-2,'-',end.year, "-admin1-smoothed-direct-map.pdf"))
+ggsave(g9b, width=8, height = 10, file = paste0("Figures/Report/", country, "-",last_window, "-admin1-smoothed-direct-map.tiff"))
+ggsave(g9b, width=8, height = 10, file = paste0("Figures/Report/", country, "-",last_window, "-admin1-smoothed-direct-map.pdf"))
 
 
 ### scatter plot 
@@ -1209,15 +1207,15 @@ plot.dat <- data.frame(direct.est=direct.admin1$mean*1000, smoothed.est=sd.admin
 g9c <- ggplot(plot.dat, aes(x=direct.est, y=smoothed.est)) +
   geom_point(size=1.5,col=rgb(red=0.2, green=0.2, blue=1.0, alpha=0.7))+xlab('Direct estimates')+
   ylab('Smoothed direct estimates')+
-  ggtitle('Smoothed direct vs. direct, admin-1, Zambia 2016-2018')+
+  ggtitle(paste('Smoothed direct vs. direct, admin-1,', country, paste0(sd.year[length(sd.year)] - 1,'-',sd.year[length(sd.year)] + 1))) +
   theme(plot.title = element_text(hjust = 0.5))+
   geom_abline(intercept = 0, slope = 1)+
   xlim(range_min,range_max)+  ylim(range_min,range_max)+coord_fixed()+
   theme(text = element_text(size=12))
 
 
-ggsave(g9c, width=6, height = 6, file = paste0("Figures/Report/", country, "-",end.year-2,'-',end.year, "-admin1-direct-compare.tiff"))
-ggsave(g9c, width=6, height = 6, file = paste0("Figures/Report/", country, "-",end.year-2,'-',end.year, "-admin1-direct-compare.pdf"))
+ggsave(g9c, width=6, height = 6, file = paste0("Figures/Report/", country, "-",last_window, "-admin1-direct-compare.tiff"))
+ggsave(g9c, width=6, height = 6, file = paste0("Figures/Report/", country, "-",last_window, "-admin1-direct-compare.pdf"))
 
 
 

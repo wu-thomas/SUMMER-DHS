@@ -1,4 +1,9 @@
 rm(list = ls()) # clear the R environment and prepare for the pipeline
+
+### Please type the name of the country you would like to analyze ### 
+# Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
+country <- 'Liberia'
+
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) # set the directory, which is the user-specified folder
 
 # create a folder called Results to store all the results for each country, including the fitted R models, figures and tables in .csv etc. No actions if the folder is already there.
@@ -24,8 +29,6 @@ if(!file.exists("countries_implemented.txt")){
   countries <- scan("countries_implemented.txt", character(), quote = "")
 }
 
-### Please type the name of the country you would like to analyze ###
-country <- 'Zambia'
 
 # create a folder for the user-specified country in the fold of Data, which contains the following sub-folders:
 # dhsFlat: This folder contains all the GPS locations where the DHS survey is carried out.

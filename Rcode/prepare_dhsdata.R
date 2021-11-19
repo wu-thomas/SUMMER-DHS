@@ -1,12 +1,17 @@
+# USER INPUT REQUIRED AT LINE 62, 67, 70, 75~79! PLEASE INPUT AS INSTRUCTED BY 
+# THE COMMENTS
+
 ################################################################
 #########   Load libraries
 ################################################################
 
 # Download most recent version of SUMMER from Github
-library(devtools)
-devtools::install_github("bryandmartin/SUMMER",
-                         build_vignettes = F, force = T)
-
+# library(devtools)
+# devtools::install_github("bryandmartin/SUMMER",
+#                          build_vignettes = F, force = T)
+# 
+# # Install the stable version of INLA
+# install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
 
 rm(list = ls())
 library(utils)
@@ -18,11 +23,11 @@ library(tidyr)
 library(rgdal)
 library(scales)
 library(INLA)
-INLA:::inla.dynload.workaround()
 library(survey)
 library(ggplot2)
 library(gridExtra)
 library(parallel)
+library(sf)
 library(spdep)
 library(readstata13)
 library(geosphere)
@@ -50,29 +55,29 @@ res.dir <- paste0(home.dir,'/Results/') # set the directory to store the results
 
 setwd(data.dir) # set the working directory to the folder of Data
 
-# Files info (For those lines with ### xxx ### above, please type in as commented)
+# Files info (For those lines with ### xxx ### above, please fill in as commented)
 countries <- countries <- scan(paste0(home.dir, "/countries_implemented.txt"), character(), quote = "")
 country <- countries[length(countries)]
 
-### please type in the country abbreviation in all upper case of gadm files ###
-gadm.abbrev <- "ZMB"
-country.abbrev <- tolower(gadm.abbrev)  # lower the country gadm abbreviation 
+### please fill in the country abbreviation in all upper case of gadm files ### (e.g. fill in SEN for gadm36_SEN_3.shp)
+gadm.abbrev <- "LBR"
+country.abbrev <- tolower(gadm.abbrev)           # lower the country gadm abbreviation 
 poly.path <- paste0(country,"/shapeFiles_gadm")  # specify the folder of the country shape files
 
-### please type in the name of the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
-dhsStata.file<-"ZMBR71DT/ZMBR71FL.dta"# 
+### please fill in the name of the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
+dhsStata.file<-"LBBR7ADT/LBBR7AFL.dta"
 
-### please type in the file name containing the DHS GPS data ###
-dhsFlat.file<-'ZMGE71FL'
+### please fill in the file name containing the DHS GPS data ###
+dhsFlat.file<-'LBGE7AFL'
 
 
-### please tyle in the folowing information ####
+### please fill in the following information ####
 
-beg.year = 2010 # the first of the interest. In the DHS report, we considered 9 years before the recent DHS report year
-end.year = 2018 # the last year of interest. In the DHS report, we use the year of the recent DHS report.
-type.st =  4 # type of space-time interaction in the models. We use type 4 interaction for the models in the DHS report
-survey_year<-2018 # year of the DHS survey
-frame.year<-2010 # year of the national census frame
+beg.year = 2010   # the first of the interest. In the DHS report, we considered 9 years before the recent DHS report year
+end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
+type.st =  4      # type of space-time interaction in the models. We use type 4 interaction for the models in the DHS report
+survey_year<-2019 # year of the DHS survey
+frame.year<-2008  # year of the national census frame (Google country + census might give you the year of the most recent census)
 
 info.name <- paste0(country, "_general_info.Rdata")
 save.image(file = paste0(home.dir,'/Info/',country,"/", info.name, sep=''))
@@ -279,7 +284,7 @@ load( paste0(poly.path, '/', country, '_Amat_Names.rda'))
 ### Prepare analysis data set ###
 
 mod.dat$years <- as.numeric(as.character(mod.dat$years))
-mod.dat$strata <- NA # setting strata to be NA will directs to undtratified models in the following pipelines
+mod.dat$strata <- NA # setting strata to be NA will directs to unstratified models in the following pipelines
 mod.dat$country <- as.character(country)
 
 

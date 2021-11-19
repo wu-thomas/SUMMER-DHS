@@ -5,8 +5,6 @@ rm(list = ls())
 
 #### Libraries ####
 library(SUMMER)
-#help(package = "SUMMER", help_type = "html")
-#utils::browseVignettes(package = "SUMMER")
 library(classInt)
 library(RColorBrewer)
 library(dplyr)
