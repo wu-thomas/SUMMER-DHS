@@ -1,5 +1,4 @@
-# USER INPUT REQUIRED AT LINE 62, 67, 70, 75~79! PLEASE INPUT AS INSTRUCTED BY 
-# THE COMMENTS
+# USER INPUT REQUIRED AT LINE 78~81! PLEASE INPUT AS INSTRUCTED BY  THE COMMENTS!
 
 ################################################################
 #########   Load libraries
@@ -59,26 +58,31 @@ setwd(data.dir) # set the working directory to the folder of Data
 countries <- countries <- scan(paste0(home.dir, "/countries_implemented.txt"), character(), quote = "")
 country <- countries[length(countries)]
 
-### please fill in the country abbreviation in all upper case of gadm files ### (e.g. fill in SEN for gadm36_SEN_3.shp)
-gadm.abbrev <- "LBR"
+# retrieve gadm file names
+gadm.abbrev <- strsplit(list.files(path = paste0(data.dir, country, "/shapeFiles_gadm"))[[1]][1], "_")[[1]][2]
 country.abbrev <- tolower(gadm.abbrev)           # lower the country gadm abbreviation 
 poly.path <- paste0(country,"/shapeFiles_gadm")  # specify the folder of the country shape files
 
-### please fill in the name of the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
-dhsStata.file<-"LBBR7ADT/LBBR7AFL.dta"
+# retrieve the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
+dhsStata.folder.path <- strsplit(list.dirs(path = paste0(data.dir, country, "/dhsStata"), recursive = F), "/")[[1]]
+dhsStata.folder <- dhsStata.folder.path[length(dhsStata.folder.path)]
+dhsStata.file <- paste0(dhsStata.folder, "/", dhsStata.folder, ".dta")
 
-### please fill in the file name containing the DHS GPS data ###
-dhsFlat.file<-'LBGE7AFL'
+# retrieve the file name containing the DHS GPS data ###
+dhsFlat.folder <- strsplit(list.dirs(path = paste0(data.dir, country, "/dhsFlat"), recursive = F), "/")[[1]]
+dhsFlat.file <- dhsFlat.folder[length(dhsFlat.folder)]
 
 
 ### please fill in the following information ####
 
 beg.year = 2010   # the first of the interest. In the DHS report, we considered 9 years before the recent DHS report year
 end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
-type.st =  4      # type of space-time interaction in the models. We use type 4 interaction for the models in the DHS report
 survey_year<-2019 # year of the DHS survey
-frame.year<-2008  # year of the national census frame (Google country + census might give you the year of the most recent census)
+frame.year<-2013  # year of the national census frame (Google country + census might give you the year of the most recent census)
 
+#################################################
+
+type.st =  4      # type of space-time interaction in the models. We use type 4 interaction for the models in the DHS report
 info.name <- paste0(country, "_general_info.Rdata")
 save.image(file = paste0(home.dir,'/Info/',country,"/", info.name, sep=''))
 

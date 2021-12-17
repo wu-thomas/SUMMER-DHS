@@ -93,17 +93,16 @@ worldpop <- raster(paste0(country.abbrev,
 
 setwd(data_dir)
 
-# read the txt file containing urban population fraction at admin1 level.
-frame<-read.delim(paste(country.abbrev, "frame_urb_prop.txt", sep = "_"),
-                  header = FALSE,sep=' ')
+# read the xlsx file containing urban population fraction at admin1 level.
+frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
 
-# identify column for fraction (need additional processing in general)
+# # identify column for fraction (need additional processing in general)
 frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers
                          function(x){as.numeric(gsub(",", "", x))})
-frame$frac <- frame$V4/frame$V2
+frame$frac <- frame[, 2]/frame[, 4]
 
 # greedy algorithm to match admin names 
-adm1.ref <- expand.grid(tolower(frame$V1),
+adm1.ref <- expand.grid(tolower(frame[, 1]),
                         tolower(admin1.names$GADM)) # Distance matrix in long form
 names(adm1.ref) <- c("frame_name","gadm_name")
 ### string distance,  jw=jaro winkler distance, try 'dl' if not working

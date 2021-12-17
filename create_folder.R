@@ -1,3 +1,4 @@
+# USER INPUT REQUIRED AT LINE 6! PLEASE INPUT AS INSTRUCTED BY  THE COMMENTS!
 rm(list = ls()) # clear the R environment and prepare for the pipeline
 
 ### Please type the name of the country you would like to analyze ### 
