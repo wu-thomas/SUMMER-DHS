@@ -6,6 +6,7 @@ header-includes:
 
 output: 
    html_document:
+    keep_md: yes
     toc: false
     number_sections: true
 urlcolor: blue
@@ -20,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Summary
 
-Stratified beta-binomial model produces estimates separately for urban and rural. An aggregation step is needed for obtaining overall estimates. Details of urban/rural stratification and entire procedure of aggregation could be found at section 3.4 and 3.5 in the original report. We recommend the reader to go over those sections before following the steps in this note. As summarized in the following equation, the beta-binomial model generates strata specific U5MR estimates and we need the urban/rural proportion for the under 5 population $q_{i,t}$ and $1-q_{i,t}$ for all region $i$ and time $t$ to obtain the final overall estimates. 
+Stratified beta-binomial model produces estimates separately for urban and rural. An aggregation step is needed for obtaining overall estimates. Details of urban/rural stratification and entire procedure of aggregation could be found at section 3.4 and 3.5 in the original report. We encourage the readers to go over those sections before following the steps in this note; however, those technical details are ***not required*** for completing the pipeline. As summarized in the following equation, the beta-binomial model generates strata specific U5MR estimates and we need the urban/rural proportion for the under 5 population $q_{i,t}$ and $1-q_{i,t}$ for all region $i$ and time $t$ to obtain the final overall estimates. 
 
 $$p_{i,t} = q_{i,t} \times U5MR_{i,t,R} + (1-q_{i,t} ) \times U5MR_{i,t,U} $$
 
@@ -38,8 +39,8 @@ We need population density surfaces from worldpop (related scripts are prepare_t
 This raster is used for determining the pixel level urban/rural classification for the country of interest. To be consistent with the stratification, we want to use the surface at the year of the sampling frame construction. The year is usually the most recent census and it could be found in the DHS report. The population raster could be manually downloaded from https://www.worldpop.org/geodata/listing?id=75 (unconstrained individual countries 2000-2020 UN adjusted, 1km resolution). The name of the downloaded raster should be like 'xxx_ppp_2000_1km_Aggregated_UNadj.tif' where xxx is the three-letter abbreviation for the country (e.g. zmb for Zambia). Then the .tif file should be manually placed into the folder 'Data\\Zambia\\Population'. Alternatively, the automated downloading scripts is:
 
 ```{r, eval=FALSE}
-
-## pop.abbrev and pop_dir are prespecified in the scripts 
+# line 70-90 from prepare_thresh.R
+# pop.abbrev and pop_dir are prespecified in the scripts 
 setwd(pop_dir)
 
 file <- paste0( pop.abbrev,'_ppp_',census.year,'_1km_Aggregated_UNadj.tif')
@@ -64,7 +65,7 @@ These rasters are used for aggregating strata specific U5MR. We use worldpop pop
 
 
 ```{r, eval=FALSE}
-
+# line 285-300 from prepare_thresh.R
 #! downloading might take a long time, especially for big countries
 
 pop.year <- beg.year:end.year  ## population surface year
@@ -140,7 +141,9 @@ Generally, population counts in the table will be displayed with comma. The foll
 
 ``` {r, eval=FALSE}
 
-frame<-read.delim(paste(country.abbrev, "frame_urb_prop.txt", sep = "_"),
+# line 95-110 from thresh.R
+
+frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
                   header = FALSE,sep=' ')
 
 # identify column for fraction (need additional processing in general)
@@ -156,6 +159,7 @@ Another difficulty is to match the Admin-1 regions names from the table and from
 
 
 ``` {r, eval=FALSE}
+# line 110-130 from thresh.R
 
 # greedy algorithm to match admin names 
 adm1.ref <- expand.grid(tolower(frame$V1),
@@ -188,6 +192,7 @@ match_order<-data.frame(greedyAssign(adm1.ref$frame_name,
 Finally, a cleaned reference table will be created with one column containing Admin-1 region names consistent with GDAM and another column containing urban population fraction. We urge the user to check the resulting data set for mismatch.
 
 ``` {r, eval=FALSE}
+# line 130-135 from thresh.R
 
 # create reference table 
 ref.tab <- admin1.names
@@ -195,6 +200,15 @@ ref.tab$matched_name <- frame$V1[match_order$a] ### check!!!
 ref.tab$urb_frac <- frame$frac[match_order$a] 
 
 ```
+
+In the end, a completed ref.tab should look like the following:
+
+<center>
+
+![ref.tab](ref_tab_example.png)
+
+</center>
+
 
 # Checking Accuracy of Thresholding
 
