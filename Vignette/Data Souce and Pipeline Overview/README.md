@@ -27,12 +27,9 @@ The detailed instruction about implementing the scripts in order is:
 </p>
 2. Run "create_folder.R". Make sure to specify the country. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
 
-![Folder structure after step 2]
+<>![Folder structure after step 2]
 <p align="center">
   <img src="folder_structure2.png"  title="Folder structure after step 2" />
-</p>
-<p align="center">
-  <em>image_caption</em>
 </p>
 
 
