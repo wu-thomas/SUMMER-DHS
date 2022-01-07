@@ -30,6 +30,8 @@ The detailed instruction about implementing the scripts in order is:
 ![Folder structure after step 2]
 <p align="center">
   <img src="folder_structure2.png"  title="Folder structure after step 2" />
+</p>
+<p align="center">
   <em>image_caption</em>
 </p>
 
