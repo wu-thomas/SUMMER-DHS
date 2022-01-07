@@ -115,7 +115,6 @@ After the zipped files are downloaded, they should be unzipped and slotted manua
   <img src="dhsFlat.PNG"  />
 </p>
 
-\newpage
 
 ## GADM shapefile
 
