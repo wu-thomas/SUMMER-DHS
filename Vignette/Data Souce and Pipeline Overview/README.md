@@ -125,17 +125,15 @@ After the zipped files are downloaded, they should be unzipped and slotted manua
 
 The boundary shapefiles are needed for constructing subnational U5MR estimates. We use GADM shapefiles for the geography of Admin-1 and Admin-2 regions. The user could visit https://gadm.org/download_country_v3.html and enter the country of interest. By clicking 'Shapefile' as shown below, the zipped shapefiles will be downloaded. The preparation is completed by slotting the unzipped file in the folder 'Data/country/shapeFiles_gadm'. An example folder structrue is shown below. One should check the GADM shapefile is consistent with desired definition for Admin-1 and/or Admin-2 regions. If not, the shapefiles need to be prepared separately.
 
-<center>
 
-![Download GADM shapefile from GADM website](GADM_web.jpg)
+<p align="center">
+  <img src="GADM_web.jpg"  />
+</p>
 
-</center>
+<p align="center">
+  <img src="gadm.PNG"  />
+</p>
 
 
-<center>
-
-![Place GADM shapefile in folder](gadm.PNG)
-
-</center>
 
 
