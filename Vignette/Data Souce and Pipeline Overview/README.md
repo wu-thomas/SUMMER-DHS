@@ -20,16 +20,15 @@ The detailed instruction about implementing the scripts in order is:
 
 1. Create a new directory and put the entire folder "Rcode" and the script named "create_folder.R" into the directory. After this step, the folder structure will look like: 
 
+
 <p align="center">
-
-![Folder structure after step 1](folder_structure1.png)
-
+  <img src="folder_structure1.png"  />
 </p>
+
 2. Run "create_folder.R". Make sure to specify the country. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
 
-<>![Folder structure after step 2]
 <p align="center">
-  <img src="folder_structure2.png"  title="Folder structure after step 2" />
+  <img src="folder_structure2.png"  />
 </p>
 
 
