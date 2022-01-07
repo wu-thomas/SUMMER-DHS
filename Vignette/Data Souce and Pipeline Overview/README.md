@@ -31,9 +31,8 @@ The detailed instruction about implementing the scripts in order is:
 <p align="center">
   <img src="folder_structure2.png"  title="Folder structure after step 2" />
 </p>
-
-<p align="center">
-![Folder structure after step 2](folder_structure2.png)
+<p>
+    <em>image_caption</em>
 </p>
 
 3. Gather the source data for the DHS surveys and GADM shapefiles described in sections 3 and 4, respectively, of this document. Put them into the folder named "Data".
