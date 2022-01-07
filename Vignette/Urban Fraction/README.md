@@ -1,23 +1,10 @@
----
-title: "Urban Fraction for Stratified Beta-binomial Model"
-
-header-includes:
-   - \usepackage{graphicx}
-
-output: 
-   html_document:
-    keep_md: yes
-    toc: false
-    number_sections: true
-urlcolor: blue
-
----
+# Urban Fraction for Stratified Beta-binomial Model
 
 
 
 
 
-# Summary
+## Summary
 
 Stratified beta-binomial model produces estimates separately for urban and rural. An aggregation step is needed for obtaining overall estimates. Details of urban/rural stratification and entire procedure of aggregation could be found at section 3.4 and 3.5 in the original report. We encourage the readers to go over those sections before following the steps in this note; however, those technical details are ***not required*** for completing the pipeline. As summarized in the following equation, the beta-binomial model generates strata specific U5MR estimates and we need the urban/rural proportion for the under 5 population $q_{i,t}$ and $1-q_{i,t}$ for all region $i$ and time $t$ to obtain the final overall estimates. 
 
@@ -28,11 +15,11 @@ The complete algorithm of finding those proportions.is implemented in two script
 
 \newpage 
 
-# Data Source
+## Data Source
 
 We need population density surfaces from worldpop (related scripts are prepare_thresh.R) and Admin-1 level urban population proportion (related scripts in thresh.R).
 
-## 1km $\times$ 1km raster for whole population at the year of census
+### 1km $\times$ 1km raster for whole population at the year of census
 
 This raster is used for determining the pixel level urban/rural classification for the country of interest. To be consistent with the stratification, we want to use the surface at the year of the sampling frame construction. The year is usually the most recent census and it could be found in the DHS report. The population raster could be manually downloaded from https://www.worldpop.org/geodata/listing?id=75 (unconstrained individual countries 2000-2020 UN adjusted, 1km resolution). The name of the downloaded raster should be like 'xxx_ppp_2000_1km_Aggregated_UNadj.tif' where xxx is the three-letter abbreviation for the country (e.g. zmb for Zambia). Then the .tif file should be manually placed into the folder 'Data\\Zambia\\Population'. Alternatively, the automated downloading scripts is:
 
@@ -56,7 +43,7 @@ if(!file.exists(file)){
 
 
 
-## 100m $\times$ 100m raster for under-5 population at the years for estimation
+### 100m $\times$ 100m raster for under-5 population at the years for estimation
 
 These rasters are used for aggregating strata specific U5MR. We use worldpop population density broken down by age and sex (available at https://www.worldpop.org/geodata/listing?id=30). For each year, four rasters are needed: 0-1 male (xxx_m_0_year.tif), 1-5 male (xxx_m_1_year.tif), 0-1 female (xxx_f_0_year.tif) and 1-5 female (xxx_f_1_year.tif), where xxx is the three-letter abbreviation for the country. For estiamtes in the past 9 years, 36 rasters in total should be donwloaded. Because of website constraint, the automated downloading scripts might not work well. In that case, manually downloaded .tif files should be put into the folder 'Data\\Zambia\\Population'. The automated downloading scripts is:
 
@@ -88,7 +75,7 @@ for(year in pop.year){
 ```
 
 
-## Admin-1 level urban population fraction
+### Admin-1 level urban population fraction
 
 The thresholding algorithm requires knowledge of urban fraction at admin-1 level. Such information could usually obtained from the DHS reports, or census summary tables. We aim to prepare a cleaned table with one column indicating the Admin-1 region name and another column the urban population fraction. Note that this step involves country specific treatment and needs extra consideration. The general search process is summarized below and the options are ordered by their priority. We illustrate the process using Zambia 2018 as an example.
 
@@ -197,14 +184,11 @@ ref.tab$urb_frac <- frame$frac[match_order$a]
 
 In the end, a completed ref.tab should look like the following:
 
-<center>
 
-![ref.tab](ref_tab_example.png)
-
-</center>
-
-
-# Checking Accuracy of Thresholding
+<p align="center">
+  <img src="ref_tab_example.png"  />
+</p>
+## Checking Accuracy of Thresholding
 
 The thresholding algorithm will yield a pixel level classification map for urban rural status. As a sanity check, we could use this map to assign the sampled clusters to urban/rural, and then compare with the classification (stratification) used in the survey.
 
