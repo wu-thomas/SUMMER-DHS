@@ -26,11 +26,8 @@ The detailed instruction about implementing the scripts in order is:
 
 </p>
 2. Run "create_folder.R". Make sure to specify the country. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
-
 <p align="center">
-
 ![Folder structure after step 2](folder_structure2.png)
-
 </p>
 
 3. Gather the source data for the DHS surveys and GADM shapefiles described in sections 3 and 4, respectively, of this document. Put them into the folder named "Data".
