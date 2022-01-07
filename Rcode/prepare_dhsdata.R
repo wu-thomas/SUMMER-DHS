@@ -1,4 +1,4 @@
-# USER INPUT REQUIRED AT LINE 78~81! PLEASE INPUT AS INSTRUCTED BY  THE COMMENTS!
+# USER INPUT REQUIRED AT LINE 79~83! PLEASE INPUT AS INSTRUCTED BY  THE COMMENTS!
 
 ################################################################
 #########   Load libraries
@@ -63,10 +63,10 @@ gadm.abbrev <- strsplit(list.files(path = paste0(data.dir, country, "/shapeFiles
 country.abbrev <- tolower(gadm.abbrev)           # lower the country gadm abbreviation 
 poly.path <- paste0(country,"/shapeFiles_gadm")  # specify the folder of the country shape files
 
-# retrieve the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
-dhsStata.folder.path <- strsplit(list.dirs(path = paste0(data.dir, country, "/dhsStata"), recursive = F), "/")[[1]]
-dhsStata.folder <- dhsStata.folder.path[length(dhsStata.folder.path)]
-dhsStata.file <- paste0(dhsStata.folder, "/", dhsStata.folder, ".dta")
+# # retrieve the folder containing the DHS data and the name of the DHS data file inside, separated by "/" ###
+# dhsStata.folder.path <- strsplit(list.dirs(path = paste0(data.dir, country, "/dhsStata"), recursive = F), "/")[[1]]
+# dhsStata.folder <- dhsStata.folder.path[length(dhsStata.folder.path)]
+# dhsStata.file <- paste0(dhsStata.folder, "/", dhsStata.folder, ".dta")
 
 # retrieve the file name containing the DHS GPS data ###
 dhsFlat.folder <- strsplit(list.dirs(path = paste0(data.dir, country, "/dhsFlat"), recursive = F), "/")[[1]]
@@ -75,7 +75,9 @@ dhsFlat.file <- dhsFlat.folder[length(dhsFlat.folder)]
 
 ### please fill in the following information ####
 
-beg.year = 2010   # the first of the interest. In the DHS report, we considered 9 years before the recent DHS report year
+
+dhsStata.file = "SNBR8BFL/SNBR8BFL.dta" # the path to the file containing DHS data
+beg.year = 2010   # the first year of the interest. In the DHS report, we considered 9 years before the recent DHS report year
 end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
 survey_year<-2019 # year of the DHS survey
 frame.year<-2013  # year of the national census frame (Google country + census might give you the year of the most recent census)
