@@ -13,7 +13,7 @@ $$p_{i,t} = q_{i,t} \times U5MR_{i,t,R} + (1-q_{i,t} ) \times U5MR_{i,t,U} $$
 The complete algorithm of finding those proportions.is implemented in two scripts: prepare_thresh.R, thresh.R and they should be run in the order listed. This vignette focuses on finding and downloading the data and highlights some of the major steps.
 
 
-\newpage 
+ 
 
 ## Data Source
 
@@ -83,41 +83,35 @@ The thresholding algorithm requires knowledge of urban fraction at admin-1 level
 
 2. The second option is to check out the report for an earlier DHS survey for the same country. DHS surveys usually use the same sampling frame as the most recent census. As the census is less frequent than DHS surveys, it is likely (but not necessarily) that multiple DHS surveys share the same sampling frame. One should be cautious about using this approach as the sampling frame might be updated between surveys (such as in Nigeria).  In our example, we will go through the final report for DHS 2013-2014 in Zambia ( available at https://dhsprogram.com/pubs/pdf/FR304/FR304.pdf). This time, we found the information in table A.1.
 
-<center>
+<p align="center">
+  <img src="Zambia_2013_A1.PNG"  />
+</p>
 
-![Urban fraction found in Zambia DHS 2013-2014 report](Zambia_2013_A1.png)
-
-</center>
 
 
 3. If the DHS survey uses the same sampling frame as a census, summary report for that census might contain Admin-1 urban fraction. From table 2.3 in the summary report for Zambia census 2010, we obtain the same information.
 
 
-<center>
+<p align="center">
+  <img src="census_2010.PNG"  />
+</p>
 
-![Urban fraction found in Zambia census 2010 report](census_2010.png)
 
-</center>
 
 
 
 
 4. The last option is to weight the number of households in urban/rural by urban/rural specific average household sizes. This approach is not ideal because the average household sizes are usually only available at national level and rounding will further compromise the accuracy. In the Zambia 2018 example, we might find information from Table A.1 and Figure 2.9 in the DHS Zambia 2018 report.  
 
-<center>
 
-![Urban fraction for households found in Zambia census 2018 report](Zambia_2018_A1.png)
+<p align="center">
+  <img src="Zambia_2018_A1.PNG"  />
+</p>
 
-</center>
+<p align="center">
+  <img src="Zambia_2018_household.PNG"  />
+</p>
 
-
-<center>
-
-![Average households size found in Zambia census 2018 report](Zambia_2018_household.PNG)
-
-</center>
-
-\newpage
 
 After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation. 
 
