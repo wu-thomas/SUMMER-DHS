@@ -182,6 +182,7 @@ In the end, a completed ref.tab should look like the following:
 <p align="center">
   <img src="ref_tab_example.png"  />
 </p>
+
 ## Checking Accuracy of Thresholding
 
 The thresholding algorithm will yield a pixel level classification map for urban rural status. As a sanity check, we could use this map to assign the sampled clusters to urban/rural, and then compare with the classification (stratification) used in the survey.
