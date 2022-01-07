@@ -106,18 +106,14 @@ The BR recode data should be downloaded in the Stata format and the GPS dataset 
 After the zipped files are downloaded, they should be unzipped and slotted manually into the prespecified folders. The BR recode data in Stata format need to go in the folder 'Data/country/dhsStata'. A subfolder need to be created with the same name as shown on the website. In the Zambia example, it is 'ZMBR71DT', and unzipped files go under it. The GPS data should be placed in the 'Data/country/dhsFlat' folder. Similarly, unzipped files go into a subfolder with name shown on the website. In Zambia example, it is 'ZMGE71FL'. The correct folder structure is shown in the following screenshots. 
 
 
-<center>
-
-![Place survey data (BR recode) in folder](dhsStata.PNG)
-
-</center>
+<p align="center">
+  <img src="dhsStata.PNG"  />
+</p>
 
 
-<center>
-
-![Place survey GPS data in folder](dhsFlat.PNG)
-
-</center>
+<p align="center">
+  <img src="dhsFlat.PNG"  />
+</p>
 
 \newpage
 
