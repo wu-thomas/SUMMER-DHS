@@ -6,6 +6,7 @@ header-includes:
 
 output: 
    html_document:
+    keep_md: yes
     toc: false
     number_sections: true
 urlcolor: blue
@@ -21,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Summary
 
 In this document, we give an overview of the pipeline and suggest the order at which scripts are run.
-In addition, we summarize the main data source for U5MR pipeline, specifically on shapefile and DHS data.  For preparation of population rasters, please reference the vignette 'Urban Fraction for Stratified Beta-binomial Model'.
+In addition, we summarize the main data source for U5MR pipeline, specifically on shapefile and DHS data.  For preparation of population rasters, please reference the vignette 'Urban Fraction for Stratified Beta-binomial Model'. The R scripts and vignettes are hosted under Github repo https://github.com/wu-thomas/SUMMER-DHS/. 
 
 # Pipeline Overview
 
@@ -35,24 +36,68 @@ The pipeline is structured as three parts:
 
 The detailed instruction about implementing the scripts in order is:
 
-1. Create a new directory and put the entire folder "Rcode" and the script named "create_folder.R" into the directory.
+1. Create a new directory and put the entire folder "Rcode" and the script named "create_folder.R" into the directory. After this step, the folder structure will look like: 
 
-2. Run "create_folder.R". Make sure to specify the country. This creates the folder structure to save data and results.
+<center>
 
-3. Gather the source data described in this document and put them into the folder named "Data".
+![Folder structure after step 1](folder_structure1.png)
 
-4. Run "Rcode/dhs_prepare.R". Make sure to specify the years and file names.
+</center>
+
+2. Run "create_folder.R". Make sure to specify the country. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
+
+<center>
+
+![Folder structure after step 2](folder_structure2.png)
+
+</center>
+
+3. Gather the source data for the DHS surveys and GADM shapefiles described in sections 3 and 4, respectively, of this document. Put them into the folder named "Data".
+
+4. Specify years and file names at the under section "set parameters" in "Rcode/prepare_dhsdata.R" script (around line 60-80). Then proceed to run the script.
 
 5. Run "Rcode/Direct_Smooth/Direct_SmoothDirect.R" to obtain direct and smoothed direct estimates.
 
-6. Run scripts under the folder "Rcode/UR Pipeline". First run "prepare_thresh.R", then "thresh.R" and finally "stratified_BB8.R". The first two scripts prepare all required data for stratified Beta-binomial model and the last one fits the models and generates the estimates.  Please reference another vignette, 'Urban Fraction for Stratified Beta-binomial Model', for getting population data and detailed description.
+6. First, navigate to “Vignette/Urban Fraction/get_urban_fraction” through Github and follow the instructions on this page. Make sure to prepare urban fraction file *before* running the scripts under “UR Pipeline”.
+Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them in the following order:
+
+   + “prepare_thresh.R”
+
+   + “thresh.R”
+
+   + “stratified_BB8.R”
+
+  Note that the first two scripts prepare data for the stratified beta-binomial model, and the final script fits the model and generates estimates
 
 7. To replicate the plots in the DHS report, run scripts in the folder named "Rcode/Visualization". "3UR_ratio_report.R"  produces Figure X.4 in the appendix of the main report. "compare_report.R" creates Figure X.2 in the appendix of the main report. "report_main.R" generates the rest of figures appeared in the appendix.  All figures are stored under "Results/country/Figures/Report".
+
+We use R to conduct all the statistical analysis. Packages and dependencies could be installed as following through the pipeline. Most packages are found under cran. For two important packages 'INLA' and 'SUMMER', we recommend using the following installing approach.
+
+``` {r echo=TRUE, eval=FALSE}
+
+### install INLA
+if (!isTRUE(requireNamespace("INLA", quietly = TRUE))) {
+  install.packages("INLA", repos=c(getOption("repos"), 
+                  INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+    
+### SUMMER
+library(devtools)  # install.packages("devtools")
+devtools::install_github("richardli/SUMMER")
+
+```
+
 
 
 # DHS Survey Data
 
-We need the BR (birth) recode for the DHS survey for U5MR estimation. To obtain the data, one needs to register first at the DHS website (https://dhsprogram.com/). After submitting a data request with description for the project, the data will be available to the user within days. 
+We need the BR (birth) recode for the DHS survey for U5MR estimation. To obtain the data, one needs to register first at the DHS website (https://dhsprogram.com/). After submitting a data request with description for the project, the data will be available to the user within days. When requesting DHS data, please make sure to check the "Show GPS datasets" option to request GPS data along with survey data. The interface should look like the following image. 
+
+<center>
+
+![Requesting GPS data](show_GPS.png)
+
+</center>
+
 
 Both the survey data and associated GPS data serve as input for SUMMER preprossing scripts. The user could navigate to the interface below and proceed to data download. Here we use Zambia as an example.
 
