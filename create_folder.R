@@ -1,11 +1,19 @@
-# USER INPUT REQUIRED AT LINE 6! PLEASE INPUT AS INSTRUCTED BY  THE COMMENTS!
+################################################################
+#########   User Input 
+################################################################
 rm(list = ls()) # clear the R environment and prepare for the pipeline
 
 ### Please type the name of the country you would like to analyze ### 
 # Please capitalize the first letter of the country name and replace " " in the country name to "_" if there is.
-country <- 'Liberia'
+
+country <- 'Senegal'
+
+################################################################
+#########   Main Code Body (NO USER INPUT NEEDED)
+################################################################
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) # set the directory, which is the user-specified folder
+
 
 # create a folder called Results to store all the results for each country, including the fitted R models, figures and tables in .csv etc. No actions if the folder is already there.
 if(!dir.exists(paths = paste0('Results'))){ 
@@ -68,3 +76,5 @@ if(!dir.exists(paths = paste0('Info/',country))){
 }
 countries <- c(countries, country)
 write(countries, file = "countries_implemented.txt") # save the newly added country into the text file.
+
+
