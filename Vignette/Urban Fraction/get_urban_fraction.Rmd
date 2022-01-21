@@ -133,82 +133,103 @@ The thresholding algorithm requires knowledge of urban fraction at admin-1 level
 
 </center>
 
+After we obtain either the urban and rural population or households and averaged household sizes at Admin-1 level, we need to summarize them in a .xlsx table for our algorithms to use. This can be done by running the script "ur_frac.R". This script requires some human interaction and we provide some examples below:
 
-\newpage
+1: Open "ur_frac.R", select all and run. The first question is to create the summary table in R or Excel. 
 
-After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation. 
+![](interface1.PNG) 
 
-Generally, population counts in the table will be displayed with comma. The following scripts get rid of those commas.
+2: If we choose 1 for the first question by typing 1 in the console and press enter, then the script asks the second question about the type of information we have: 
 
-``` {r, eval=FALSE}
+![](interface2.PNG) 
 
-# line 95-110 from thresh.R
+If we choose 2 for the first question, then an empty .xlsx table will be generated and needs to be filled in manually in Excel.
 
-frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
-                  header = FALSE,sep=' ')
+![](interface5.PNG) 
 
-# identify column for fraction (need additional processing in general)
-frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers
-                         function(x){as.numeric(gsub(",", "", x))})
-frame$frac <- frame$V4/frame$V2
+3: Suppose we know the exact urban and rural population of each Admin-1 region, we choose 1 for the second question. Then, the script asks for the urban and total population for each Admin-1 region. The user needs to type in the number and press enter to proceed to next Admin-1 region until all Admin-1 regions are entered. Finally, the table will be displayed and saved. If a number is entered by mistake, the user can directly correct the saved .xlsx table.
 
+![](interface4.PNG) 
 
+If we choose 2 for the second question, then the script asks for the urban and total households and averaged household sizes for each Admin-1 region. Note that since we know the exact urban and total population of each Admin-1 region for Zambia, then we should always avoid using the household-related information. In the example below, due to the lack of Admin-1 level averaged urban and total household sizes, the national level ones are used, which is not recommended and just for presentation purpose.
 
-```
+![](interface6.PNG)
 
-Another difficulty is to match the Admin-1 regions names from the table and from the GADM shapefile. A greedy algorithm might be adopted to automate the matching process. It could also be done manually.
+<!-- \newpage -->
 
+<!-- After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation.  -->
 
-``` {r, eval=FALSE}
-# line 110-130 from thresh.R
+<!-- Generally, population counts in the table will be displayed with comma. The following scripts get rid of those commas. -->
 
-# greedy algorithm to match admin names 
-adm1.ref <- expand.grid(tolower(frame$V1),
-                        tolower(admin1.names$GADM)) # Distance matrix in long form
-names(adm1.ref) <- c("frame_name","gadm_name")
-### string distance,  jw=jaro winkler distance, try 'dl' if not working
-adm1.ref$dist <- stringdist(adm1.ref$frame_name,
-                            adm1.ref$gadm_name, method="jw") 
+<!-- ``` {r, eval=FALSE} -->
 
-greedyAssign <- function(a,b,d){
-  x <- numeric(length(a)) # assgn variable: 0 for unassigned but assignable, 
-  # 1 for already assigned, -1 for unassigned and unassignable
-  while(any(x==0)){
-    min_d <- min(d[x==0]) # identify closest pair, arbitrarily selecting 1st if multiple pairs
-    a_sel <- a[d==min_d & x==0][1] 
-    b_sel <- b[d==min_d & a == a_sel & x==0][1] 
-    x[a==a_sel & b == b_sel] <- 1
-    x[x==0 & (a==a_sel|b==b_sel)] <- -1
-  }
-  cbind(a=a[x==1],b=b[x==1],d=d[x==1])
-}
+<!-- # line 95-110 from thresh.R -->
 
-match_order<-data.frame(greedyAssign(adm1.ref$frame_name,
-                                     adm1.ref$gadm_name,
-                                     adm1.ref$dist))
+<!-- frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_")) -->
+<!--                   header = FALSE,sep=' ') -->
 
-```
+<!-- # identify column for fraction (need additional processing in general) -->
+<!-- frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers -->
+<!--                          function(x){as.numeric(gsub(",", "", x))}) -->
+<!-- frame$frac <- frame$V4/frame$V2 -->
 
 
-Finally, a cleaned reference table will be created with one column containing Admin-1 region names consistent with GDAM and another column containing urban population fraction. We urge the user to check the resulting data set for mismatch.
 
-``` {r, eval=FALSE}
-# line 130-135 from thresh.R
+<!-- ``` -->
 
-# create reference table 
-ref.tab <- admin1.names
-ref.tab$matched_name <- frame$V1[match_order$a] ### check!!!
-ref.tab$urb_frac <- frame$frac[match_order$a] 
+<!-- Another difficulty is to match the Admin-1 regions names from the table and from the GADM shapefile. A greedy algorithm might be adopted to automate the matching process. It could also be done manually. -->
 
-```
 
-In the end, a completed ref.tab should look like the following:
+<!-- ``` {r, eval=FALSE} -->
+<!-- # line 110-130 from thresh.R -->
 
-<center>
+<!-- # greedy algorithm to match admin names  -->
+<!-- adm1.ref <- expand.grid(tolower(frame$V1), -->
+<!--                         tolower(admin1.names$GADM)) # Distance matrix in long form -->
+<!-- names(adm1.ref) <- c("frame_name","gadm_name") -->
+<!-- ### string distance,  jw=jaro winkler distance, try 'dl' if not working -->
+<!-- adm1.ref$dist <- stringdist(adm1.ref$frame_name, -->
+<!--                             adm1.ref$gadm_name, method="jw")  -->
 
-![ref.tab](ref_tab_example.png)
+<!-- greedyAssign <- function(a,b,d){ -->
+<!--   x <- numeric(length(a)) # assgn variable: 0 for unassigned but assignable,  -->
+<!--   # 1 for already assigned, -1 for unassigned and unassignable -->
+<!--   while(any(x==0)){ -->
+<!--     min_d <- min(d[x==0]) # identify closest pair, arbitrarily selecting 1st if multiple pairs -->
+<!--     a_sel <- a[d==min_d & x==0][1]  -->
+<!--     b_sel <- b[d==min_d & a == a_sel & x==0][1]  -->
+<!--     x[a==a_sel & b == b_sel] <- 1 -->
+<!--     x[x==0 & (a==a_sel|b==b_sel)] <- -1 -->
+<!--   } -->
+<!--   cbind(a=a[x==1],b=b[x==1],d=d[x==1]) -->
+<!-- } -->
 
-</center>
+<!-- match_order<-data.frame(greedyAssign(adm1.ref$frame_name, -->
+<!--                                      adm1.ref$gadm_name, -->
+<!--                                      adm1.ref$dist)) -->
+
+<!-- ``` -->
+
+
+<!-- Finally, a cleaned reference table will be created with one column containing Admin-1 region names consistent with GDAM and another column containing urban population fraction. We urge the user to check the resulting data set for mismatch. -->
+
+<!-- ``` {r, eval=FALSE} -->
+<!-- # line 130-135 from thresh.R -->
+
+<!-- # create reference table  -->
+<!-- ref.tab <- admin1.names -->
+<!-- ref.tab$matched_name <- frame$V1[match_order$a] ### check!!! -->
+<!-- ref.tab$urb_frac <- frame$frac[match_order$a]  -->
+
+<!-- ``` -->
+
+<!-- In the end, a completed ref.tab should look like the following: -->
+
+<!-- <center> -->
+
+<!-- ![ref.tab](ref_tab_example.png) -->
+
+<!-- </center> -->
 
 
 # Checking Accuracy of Thresholding

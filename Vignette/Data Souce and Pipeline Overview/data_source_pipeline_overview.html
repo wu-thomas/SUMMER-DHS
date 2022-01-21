@@ -191,7 +191,7 @@ pre code {
 </div>
 </center>
 <ol start="2" style="list-style-type: decimal">
-<li>Run “create_folder.R”. Make sure to specify the country. This creates the folder structure to save data and results. After this step, the folder structure will look like:</li>
+<li>Run “create_folder.R”. Make sure to specify the country in the top section of the script. This creates the folder structure to save data and results. After this step, the folder structure will look like:</li>
 </ol>
 <center>
 <div class="figure">
@@ -201,16 +201,17 @@ pre code {
 </center>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Gather the source data for the DHS surveys and GADM shapefiles described in sections 3 and 4, respectively, of this document. Put them into the folder named “Data”.</p></li>
-<li><p>Specify years and file names at the under section “set parameters” in “Rcode/prepare_dhsdata.R” script (around line 60-80). Then proceed to run the script.</p></li>
+<li><p>Specify the first and last years of interest, the year of the national census sampling frame, DHS survey year and the DHS file name in the top section of “Rcode/prepare_dhsdata.R”. Then proceed to run the script.</p></li>
 <li><p>Run “Rcode/Direct_Smooth/Direct_SmoothDirect.R” to obtain direct and smoothed direct estimates.</p></li>
-<li><p>First, navigate to “Vignette/Urban Fraction/get_urban_fraction” through Github and follow the instructions on this page. Make sure to prepare urban fraction file <em>before</em> running the scripts under “UR Pipeline”. Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them in the following order:</p>
+<li><p>First, navigate to “Vignette/Urban Fraction/get_urban_fraction” through Github and follow the instructions on this page. Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them in the following order:</p>
 <ul>
 <li><p>“prepare_thresh.R”</p></li>
+<li><p>“ur_frac.R”</p></li>
 <li><p>“thresh.R”</p></li>
 <li><p>“stratified_BB8.R”</p></li>
 </ul></li>
 </ol>
-<p>Note that the first two scripts prepare data for the stratified beta-binomial model, and the final script fits the model and generates estimates</p>
+<p>The first three scripts prepare the data for the stratified beta-binomial model, and the final script fits the model and generates the estimates.</p>
 <ol start="7" style="list-style-type: decimal">
 <li>To replicate the plots in the DHS report, run scripts in the folder named “Rcode/Visualization”. “3UR_ratio_report.R” produces Figure X.4 in the appendix of the main report. “compare_report.R” creates Figure X.2 in the appendix of the main report. “report_main.R” generates the rest of figures appeared in the appendix. All figures are stored under “Results/country/Figures/Report”.</li>
 </ol>
