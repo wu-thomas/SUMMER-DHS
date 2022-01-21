@@ -155,81 +155,81 @@ If we choose 2 for the second question, then the script asks for the urban and t
 
 ![](interface6.PNG)
 
-<!-- \newpage -->
+\newpage
 
-<!-- After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation.  -->
+After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation.
 
-<!-- Generally, population counts in the table will be displayed with comma. The following scripts get rid of those commas. -->
+Generally, population counts in the table will be displayed with comma. The following scripts get rid of those commas.
 
-<!-- ``` {r, eval=FALSE} -->
+``` {r, eval=FALSE}
 
-<!-- # line 95-110 from thresh.R -->
+# line 95-110 from thresh.R
 
-<!-- frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_")) -->
-<!--                   header = FALSE,sep=' ') -->
+frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
+                  header = FALSE,sep=' ')
 
-<!-- # identify column for fraction (need additional processing in general) -->
-<!-- frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers -->
-<!--                          function(x){as.numeric(gsub(",", "", x))}) -->
-<!-- frame$frac <- frame$V4/frame$V2 -->
-
-
-
-<!-- ``` -->
-
-<!-- Another difficulty is to match the Admin-1 regions names from the table and from the GADM shapefile. A greedy algorithm might be adopted to automate the matching process. It could also be done manually. -->
+# identify column for fraction (need additional processing in general)
+frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers
+                         function(x){as.numeric(gsub(",", "", x))})
+frame$frac <- frame$V4/frame$V2
 
 
-<!-- ``` {r, eval=FALSE} -->
-<!-- # line 110-130 from thresh.R -->
 
-<!-- # greedy algorithm to match admin names  -->
-<!-- adm1.ref <- expand.grid(tolower(frame$V1), -->
-<!--                         tolower(admin1.names$GADM)) # Distance matrix in long form -->
-<!-- names(adm1.ref) <- c("frame_name","gadm_name") -->
-<!-- ### string distance,  jw=jaro winkler distance, try 'dl' if not working -->
-<!-- adm1.ref$dist <- stringdist(adm1.ref$frame_name, -->
-<!--                             adm1.ref$gadm_name, method="jw")  -->
+```
 
-<!-- greedyAssign <- function(a,b,d){ -->
-<!--   x <- numeric(length(a)) # assgn variable: 0 for unassigned but assignable,  -->
-<!--   # 1 for already assigned, -1 for unassigned and unassignable -->
-<!--   while(any(x==0)){ -->
-<!--     min_d <- min(d[x==0]) # identify closest pair, arbitrarily selecting 1st if multiple pairs -->
-<!--     a_sel <- a[d==min_d & x==0][1]  -->
-<!--     b_sel <- b[d==min_d & a == a_sel & x==0][1]  -->
-<!--     x[a==a_sel & b == b_sel] <- 1 -->
-<!--     x[x==0 & (a==a_sel|b==b_sel)] <- -1 -->
-<!--   } -->
-<!--   cbind(a=a[x==1],b=b[x==1],d=d[x==1]) -->
-<!-- } -->
-
-<!-- match_order<-data.frame(greedyAssign(adm1.ref$frame_name, -->
-<!--                                      adm1.ref$gadm_name, -->
-<!--                                      adm1.ref$dist)) -->
-
-<!-- ``` -->
+Another difficulty is to match the Admin-1 regions names from the table and from the GADM shapefile. A greedy algorithm might be adopted to automate the matching process. It could also be done manually.
 
 
-<!-- Finally, a cleaned reference table will be created with one column containing Admin-1 region names consistent with GDAM and another column containing urban population fraction. We urge the user to check the resulting data set for mismatch. -->
+``` {r, eval=FALSE}
+# line 110-130 from thresh.R
 
-<!-- ``` {r, eval=FALSE} -->
-<!-- # line 130-135 from thresh.R -->
+# greedy algorithm to match admin names
+adm1.ref <- expand.grid(tolower(frame$V1),
+                        tolower(admin1.names$GADM)) # Distance matrix in long form
+names(adm1.ref) <- c("frame_name","gadm_name")
+### string distance,  jw=jaro winkler distance, try 'dl' if not working
+adm1.ref$dist <- stringdist(adm1.ref$frame_name,
+                            adm1.ref$gadm_name, method="jw")
 
-<!-- # create reference table  -->
-<!-- ref.tab <- admin1.names -->
-<!-- ref.tab$matched_name <- frame$V1[match_order$a] ### check!!! -->
-<!-- ref.tab$urb_frac <- frame$frac[match_order$a]  -->
+greedyAssign <- function(a,b,d){
+  x <- numeric(length(a)) # assgn variable: 0 for unassigned but assignable,
+  # 1 for already assigned, -1 for unassigned and unassignable
+  while(any(x==0)){
+    min_d <- min(d[x==0]) # identify closest pair, arbitrarily selecting 1st if multiple pairs
+    a_sel <- a[d==min_d & x==0][1]
+    b_sel <- b[d==min_d & a == a_sel & x==0][1]
+    x[a==a_sel & b == b_sel] <- 1
+    x[x==0 & (a==a_sel|b==b_sel)] <- -1
+  }
+  cbind(a=a[x==1],b=b[x==1],d=d[x==1])
+}
 
-<!-- ``` -->
+match_order<-data.frame(greedyAssign(adm1.ref$frame_name,
+                                     adm1.ref$gadm_name,
+                                     adm1.ref$dist))
 
-<!-- In the end, a completed ref.tab should look like the following: -->
+```
 
-<!-- <center> -->
 
-<!-- ![ref.tab](ref_tab_example.png) -->
+Finally, a cleaned reference table will be created with one column containing Admin-1 region names consistent with GDAM and another column containing urban population fraction. We urge the user to check the resulting data set for mismatch.
 
-<!-- </center> -->
+``` {r, eval=FALSE}
+# line 130-135 from thresh.R
+
+# create reference table
+ref.tab <- admin1.names
+ref.tab$matched_name <- frame$V1[match_order$a] ### check!!!
+ref.tab$urb_frac <- frame$frac[match_order$a]
+
+```
+
+In the end, a completed ref.tab should look like the following:
+
+<center>
+
+![ref.tab](ref_tab_example.png)
+
+</center>
 
 
 # Checking Accuracy of Thresholding
