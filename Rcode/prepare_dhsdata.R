@@ -1,4 +1,16 @@
-# USER INPUT REQUIRED AT LINE 79~83! PLEASE INPUT AS INSTRUCTED BY  THE COMMENTS!
+################################################################
+#########   User Input 
+################################################################
+
+rm(list = ls())
+
+### please fill in the following information ####
+
+dhsStata.file = "SNBR8BFL/SNBR8BFL.dta" # the path to the file containing DHS data
+beg.year = 2010   # the first year of the interest. In the DHS report, we considered 9 years before the recent DHS report year
+end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
+survey_year<-2019 # year of the DHS survey
+frame.year<-2013  # year of the national census frame (Google country + census might give you the year of the most recent census)
 
 ################################################################
 #########   Load libraries
@@ -12,7 +24,7 @@
 # # Install the stable version of INLA
 # install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
 
-rm(list = ls())
+
 library(utils)
 library(SUMMER)
 library(classInt)
@@ -72,15 +84,6 @@ poly.path <- paste0(country,"/shapeFiles_gadm")  # specify the folder of the cou
 dhsFlat.folder <- strsplit(list.dirs(path = paste0(data.dir, country, "/dhsFlat"), recursive = F), "/")[[1]]
 dhsFlat.file <- dhsFlat.folder[length(dhsFlat.folder)]
 
-
-### please fill in the following information ####
-
-
-dhsStata.file = "SNBR8BFL/SNBR8BFL.dta" # the path to the file containing DHS data
-beg.year = 2010   # the first year of the interest. In the DHS report, we considered 9 years before the recent DHS report year
-end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
-survey_year<-2019 # year of the DHS survey
-frame.year<-2013  # year of the national census frame (Google country + census might give you the year of the most recent census)
 
 #################################################
 

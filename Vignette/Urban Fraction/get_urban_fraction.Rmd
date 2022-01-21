@@ -133,6 +133,7 @@ The thresholding algorithm requires knowledge of urban fraction at admin-1 level
 
 </center>
 
+
 \newpage
 
 After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation. 
