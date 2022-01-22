@@ -183,18 +183,20 @@ Generally, population counts in the table will be displayed with comma. The foll
 
 ``` {r, eval=FALSE}
 
-# line 95-110 from thresh.R
+# read the .txt or .xlsx file containing urban population fraction at admin1 level.
+if (file.exists(paste(country.abbrev, "frame_urb_prop.txt", sep = "_"))){
+  frame <- read.delim(paste(country.abbrev, "frame_urb_prop.txt", sep = "_"), 
+                      header = FALSE,sep=' ')
+}
+if (file.exists(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))){
+  frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
+}
 
-frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
-                  header = FALSE,sep=' ')
 
-# identify column for fraction (need additional processing in general)
+# # identify column for fraction (need additional processing in general)
 frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers
                          function(x){as.numeric(gsub(",", "", x))})
-frame$frac <- frame$V4/frame$V2
-
-
-
+frame$frac <- frame[, 2]/frame[, 4]
 ```
 
 Another difficulty is to match the Admin-1 regions names from the table and from the GADM shapefile. A greedy algorithm might be adopted to automate the matching process. It could also be done manually.
