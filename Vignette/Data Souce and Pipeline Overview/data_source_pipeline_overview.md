@@ -14,7 +14,9 @@ urlcolor: blue
 ---
 
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 
 # Summary
@@ -42,7 +44,7 @@ The detailed instruction about implementing the scripts in order is:
 
 </center>
 
-2. Run "create_folder.R". Make sure to specify the country in the top section of the script. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
+2. Run "create_folder.R" in Rstudio. Make sure to specify the country in the top section of the script. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
 
 <center>
 
@@ -61,7 +63,7 @@ Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them i
 
    + “prepare_thresh.R”
    
-   + “ur_frac.R”
+   + “ur_frac.R” (if necessary)
 
    + “thresh.R”
 
@@ -73,8 +75,8 @@ Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them i
 
 We use R to conduct all the statistical analysis. Packages and dependencies could be installed as following through the pipeline. Most packages are found under cran. For two important packages 'INLA' and 'SUMMER', we recommend using the following installing approach.
 
+``` {r echo=TRUE, eval=FALSE}
 
-```r
 ### install INLA
 if (!isTRUE(requireNamespace("INLA", quietly = TRUE))) {
   install.packages("INLA", repos=c(getOption("repos"), 
@@ -83,6 +85,7 @@ if (!isTRUE(requireNamespace("INLA", quietly = TRUE))) {
 ### SUMMER
 library(devtools)  # install.packages("devtools")
 devtools::install_github("richardli/SUMMER")
+
 ```
 
 
