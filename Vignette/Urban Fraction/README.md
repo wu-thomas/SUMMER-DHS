@@ -168,7 +168,7 @@ Create an empty .txt file named in the form of "xxx_frame_urb_prop.txt", where "
 Paste the table and save it in '\\Data\\country\\'. Please make sure the first four columns are for the Admin-1 region names, urban population, rural population, and total population respectively. The columns afterwards and the commas in the numbers won't perturb our scripts.
 
 <p align="left">
-  <img src="copy_table3.png"  />
+  <img src="copy_table3.PNG"  />
 </p>
 
 After the Admin-1 urban population fractions are located, we will conduct ad hoc data cleaning to prepare a data frame. We recommend first copy the table from report into a .txt file and clean it in R. The .txt file should be placed under '\\Data\\country\\'. We show some details of this step using Zambia as an example. Note that additional scripts might be needed to accommodate country specific situation. 
