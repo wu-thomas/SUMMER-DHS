@@ -25,7 +25,7 @@ The detailed instruction about implementing the scripts in order is:
   <img src="folder_structure1.png"  />
 </p>
 
-2. Run "create_folder.R". Make sure to specify the country. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
+2. Run "create_folder.R" in Rstudio. Make sure to specify the country in the top section of the script. This creates the folder structure to save data and results. After this step, the folder structure will look like: 
 
 <p align="center">
   <img src="folder_structure2.png"  />
@@ -34,20 +34,22 @@ The detailed instruction about implementing the scripts in order is:
 
 3. Gather the source data for the DHS surveys and GADM shapefiles described in sections 3 and 4, respectively, of this document. Put them into the folder named "Data".
 
-4. Specify years and file names at the under section "set parameters" in "Rcode/prepare_dhsdata.R" script (around line 60-80). Then proceed to run the script.
+4. Specify the first and last years of interest, the year of the national census sampling frame, DHS survey year and the DHS file name in the top section of "Rcode/prepare_dhsdata.R". Then proceed to run the script.
 
 5. Run "Rcode/Direct_Smooth/Direct_SmoothDirect.R" to obtain direct and smoothed direct estimates.
 
-6. First, navigate to “Vignette/Urban Fraction/get_urban_fraction” through Github and follow the instructions on this page. Make sure to prepare urban fraction file *before* running the scripts under “UR Pipeline”.
+6. First, navigate to “Vignette/Urban Fraction/get_urban_fraction” through Github and follow the instructions on this page. 
 Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them in the following order:
 
    + “prepare_thresh.R”
+   
+   + “ur_frac.R” (if necessary)
 
    + “thresh.R”
 
    + “stratified_BB8.R”
 
-  Note that the first two scripts prepare data for the stratified beta-binomial model, and the final script fits the model and generates estimates
+  The first three scripts prepare the data for the stratified beta-binomial model, and the final script fits the model and generates the estimates.  
 
 7. To replicate the plots in the DHS report, run scripts in the folder named "Rcode/Visualization". "3UR_ratio_report.R"  produces Figure X.4 in the appendix of the main report. "compare_report.R" creates Figure X.2 in the appendix of the main report. "report_main.R" generates the rest of figures appeared in the appendix.  All figures are stored under "Results/country/Figures/Report".
 
