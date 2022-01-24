@@ -165,7 +165,7 @@ Create an empty .txt file named in the form of "xxx_frame_urb_prop.txt", where "
   <img src="copy_table2.png"  />
 </p>
 
-Paste the table and save it in '\\Data\\country\\'. Please make sure the first four columns are for the Admin-1 region names, urban population, rural population, and total population respectively. The columns afterwards and the commas in the numbers won't perturb our scripts.
+Paste the table and save it in '\\Data\\country\\'. Please make sure the first four columns are for the Admin-1 region names, urban population, rural population, and total population respectively (otherwise please change the scripts to locate those columns). The columns afterwards and the commas in the numbers won't affect our scripts. If there are empty spaces within the name of a region, please manually delete them (such as modifying 'ABC DEF' to 'ABCDEF'). 
 
 <p align="left">
   <img src="copy_table3.PNG"  />
