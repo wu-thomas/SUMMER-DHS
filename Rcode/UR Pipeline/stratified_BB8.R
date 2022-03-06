@@ -2,7 +2,7 @@
 #########   load libraries
 ################################################################
 rm(list = ls())
-
+options(warn = -1)
 #### Libraries ####
 library(SUMMER)
 library(classInt)
@@ -197,4 +197,4 @@ res.strat.admin2 <- getSmoothed(inla_mod = fit.strat.admin2,
 
 saveRDS(res.strat.admin2,paste0('Betabinomial/',
                                 country,'_res.strat.admin2.3UR.rds'))
-
+options(warn = 0)

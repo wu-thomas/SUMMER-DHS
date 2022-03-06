@@ -4,6 +4,8 @@
 #### Libraries ####
 
 rm(list = ls())
+
+options(warn = -1)
 library(SUMMER)
 library(classInt)
 library(RColorBrewer)
@@ -19,6 +21,7 @@ library(gridExtra)
 library(mgcv)
 library(caret)
 library(geosphere)
+options(gsubfn.engine = "R")
 library(rgeos)
 library(sqldf)
 library(raster)
@@ -379,3 +382,4 @@ urb_dat$admin1.char <- paste0("admin1_", admin1.key)
 setwd(data_dir)
 save(urb_dat,file='prepared_dat/natl_grid.rda')
 
+options(warn = 0)

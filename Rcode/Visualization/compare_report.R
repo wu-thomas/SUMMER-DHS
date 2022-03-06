@@ -2,13 +2,8 @@
 #########   Load libraries
 ################################################################
 
-## Download most recent version of SUMMER from Github
-#library(devtools)
-#devtools::install_github("bryandmartin/SUMMER",
-#                         build_vignettes = F, force = T)
-
-
 rm(list = ls())
+options(warn = -1)
 library(SUMMER)
 library(classInt)
 library(RColorBrewer)
@@ -505,4 +500,4 @@ ggsave(g1, width=8, height = 6, file = paste0("Figures/Comparison/National/", co
 
 ggsave(g1, width=8, height = 6, file = paste0("Figures/Report/", country, "-natl-compare-BB8-direct.pdf"))
 ggsave(g1, width=8, height = 6, file = paste0("Figures/Report/", country, "-natl-compare-BB8-direct.tiff"))
-
+options(warn = 0)

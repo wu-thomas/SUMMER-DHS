@@ -2,7 +2,7 @@
 #########   load libraries
 ################################################################
 rm(list = ls())
-
+options(warn = -1)
 #### Libraries ####
 library(SUMMER)
 library(classInt)
@@ -24,6 +24,7 @@ library(rgeos)
 library(haven)
 library(labelled)
 library(data.table)
+options(gsubfn.engine = "R")
 library(sqldf)
 library(sp)
 library(gstat)
@@ -93,8 +94,15 @@ worldpop <- raster(paste0(country.abbrev,
 
 setwd(data_dir)
 
-# read the xlsx file containing urban population fraction at admin1 level.
-frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
+# read the .txt or .xlsx file containing urban population fraction at admin1 level.
+if (file.exists(paste(country.abbrev, "frame_urb_prop.txt", sep = "_"))){
+  frame <- read.delim(paste(country.abbrev, "frame_urb_prop.txt", sep = "_"), 
+                      header = FALSE,sep=' ')
+}
+if (file.exists(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))){
+  frame <- read.xlsx(paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
+}
+
 
 # # identify column for fraction (need additional processing in general)
 frame[,c(2,4)] <- lapply(frame[,c(2,4)],   ## function to remove comma in numbers
@@ -392,3 +400,4 @@ adm2.weight.frame$rural <- 1 - adm2.weight.frame$urban
 # save weights frames
 saveRDS(adm1.weight.frame,paste0('UR/U5_fraction/','admin1_urban_weights.rds'))
 saveRDS(adm2.weight.frame,paste0('UR/U5_fraction/','admin2_urban_weights.rds'))
+options(warn = 0)

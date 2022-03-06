@@ -2,7 +2,7 @@
 #########   load libraries
 ################################################################
 rm(list = ls())
-
+options(warn = -1)
 #### Libraries ####
 library(SUMMER)
 library(classInt)
@@ -385,4 +385,4 @@ ggsave(g.hazard, width=12, height = 8, file = paste0("Figures/Comparison/UR/", c
 ggsave(g.hazard, width=12, height = 8, file = paste0("Figures/Report/", country, "-3UR-hazard.pdf"))
 ggsave(g.hazard, width=12, height = 8, file = paste0("Figures/Report/", country, "-3UR-hazard.tiff"))
 
-
+options(warn = 0)

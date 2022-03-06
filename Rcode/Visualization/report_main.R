@@ -2,7 +2,7 @@
 #########   load libraries
 ################################################################
 rm(list = ls())
-
+options(warn = -1)
 #### Libraries ####
 library(SUMMER)
 library(classInt)
@@ -24,6 +24,7 @@ library(rgeos)
 library(haven)
 library(labelled)
 library(data.table)
+options(gsubfn.engine = "R")
 library(sqldf)
 library(sp)
 library(gstat)
@@ -1254,3 +1255,4 @@ class(admin2_res_merged) <- class(res.strat.admin2$overall)
 admin2_res_merged_cleaned<-admin2_res_merged[, c("region", "years", "median", "mean", "variance", "lower", "upper")]
 write.csv(admin2_res_merged_cleaned,
           paste0(country, '_final_3UR_admin2_U5MR.csv'))
+options(warn=0)

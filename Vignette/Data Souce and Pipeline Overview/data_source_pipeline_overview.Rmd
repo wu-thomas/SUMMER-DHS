@@ -36,6 +36,8 @@ The pipeline is structured as three parts:
 
 The detailed instruction about implementing the scripts in order is:
 
+0. Make sure your R version is at least 4.1.0. Otherwise, installation of dependent packages might fail.
+
 1. Create a new directory and put the entire folder "Rcode" and the script named "create_folder.R" into the directory. After this step, the folder structure will look like: 
 
 <center>

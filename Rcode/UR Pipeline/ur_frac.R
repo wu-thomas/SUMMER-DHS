@@ -2,7 +2,7 @@
 #########   load libraries
 ################################################################
 rm(list = ls())
-
+options(warn = -1)
 #### Libraries ####
 library(SUMMER)
 library(classInt)
@@ -24,6 +24,7 @@ library(rgeos)
 library(haven)
 library(labelled)
 library(data.table)
+options(gsubfn.engine = "R")
 library(sqldf)
 library(sp)
 library(gstat)
@@ -84,7 +85,7 @@ table_generator = function(){
                       title = "You would like to create the U/R summary table via? (Choose option 1 or 2 from below)")
   if (table_choice == 1){
     choice = menu(c("Exact urban and rural population of each admin-1", 
-                 "Average household size and number of households of each admin-1"), 
+                 "Average urban and rural household sizes and number of households of each admin-1"), 
                title = "What information do you know? (Choose option 1 or 2 from below)")
                   
     if (choice == 1){
@@ -128,19 +129,19 @@ table_generator = function(){
       pop_frac$total = household_table$totalHH * household_table$totalHH_avg
       pop_frac$rural = pop_frac$total - pop_frac$urban
     }
-    print("This is the U/R population summary table you've created")
+    print("This is the U/R population summary table you've created: ")
     print(pop_frac)
     write.xlsx(pop_frac, file = paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
     print(paste0("U/R population summary table saved in ", data_dir))
   }
   if (table_choice == 2){
     write.xlsx(pop_frac, file = paste(country.abbrev, "frame_urb_prop.xlsx", sep = "_"))
-    print(paste0("The table has been saved into ", data_dir, ". Please fill in the table before we proceed"))
+    print(paste0("The table has been saved into ", data_dir, ". Please fill in the table before we proceed to thresh.R"))
   }
 }
 
 table_generator()
-
+options(warn = 0)
 
 
 

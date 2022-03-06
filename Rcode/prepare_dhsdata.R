@@ -6,7 +6,7 @@ rm(list = ls())
 
 ### please fill in the following information ####
 
-dhsStata.file = "SNBR8BFL/SNBR8BFL.dta" # the path to the file containing DHS data
+dhsStata.file = "LBBR7ADT/LBBR7AFL.DTA" # the path to the file containing DHS data
 beg.year = 2010   # the first year of the interest. In the DHS report, we considered 9 years before the recent DHS report year
 end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
 survey_year<-2019 # year of the DHS survey
@@ -17,14 +17,16 @@ frame.year<-2013  # year of the national census frame (Google country + census m
 ################################################################
 
 # Download most recent version of SUMMER from Github
-# library(devtools)
-# devtools::install_github("bryandmartin/SUMMER",
-#                          build_vignettes = F, force = T)
-# 
-# # Install the stable version of INLA
-# install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
+options(warn = -1)
+library(devtools)
+options(warn = 0)
+devtools::install_github("bryandmartin/SUMMER",
+                         build_vignettes = F, force = T)
 
+# Install the stable version of INLA
+install.packages("INLA",repos=c(getOption("repos"),INLA="https://inla.r-inla-download.org/R/stable"), dep=TRUE)
 
+options(warn = -1)
 library(utils)
 library(SUMMER)
 library(classInt)
@@ -43,7 +45,6 @@ library(spdep)
 library(readstata13)
 library(geosphere)
 library(mapproj)
-
 
 
 # extract file location of this script
@@ -323,4 +324,4 @@ if(!dir.exists(paths = paste0('Betabinomial'))){ # this folder will store the
 if(!dir.exists(paths = paste0('Figures'))){
   dir.create(path = paste0('Figures'))
 }
-
+options(warn = 0)

@@ -3,7 +3,7 @@
 ################################################################
 
 rm(list = ls())
-
+options(warn=-1)
 library(SUMMER)
 library(classInt)
 library(RColorBrewer)
@@ -264,3 +264,4 @@ file.out <- paste0(country, "_res_admin1_SmoothedDirect_yearly.rda")
 
 save(sd.admin1.yearly, file = paste0('Smooth_Direct/', file.out)) # save the admin1 yearly smoothed direct U5MR
 
+options(warn=-1)
