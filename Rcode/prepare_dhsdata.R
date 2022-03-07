@@ -7,9 +7,9 @@ rm(list = ls())
 ### please fill in the following information ####
 
 dhsStata.file = "LBBR7ADT/LBBR7AFL.DTA" # the path to the file containing DHS data
-beg.year = 2010   # the first year of the interest. In the DHS report, we considered 9 years before the recent DHS report year
-end.year = 2019   # the last year of interest. In the DHS report, we use the year of the recent DHS report.
-survey_year<-2019 # year of the DHS survey
+beg.year = 2010   # the first year of the interest. In the DHS report, we considered 9 years before the end year.
+end.year = 2019   # the last year of interest. Normally, we use the survey year. 
+survey_year<-2019 # year of the DHS survey. For surveys that span two years, default to use later year (methodologically speaking, use either year is fine, depends on the years of interest). 
 frame.year<-2013  # year of the national census frame (Google country + census might give you the year of the most recent census)
 
 ################################################################
