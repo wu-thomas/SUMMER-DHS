@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this document, we give an overview of the pipeline and suggest the order at which scripts are run.
 In addition, we summarize the main data source for U5MR pipeline, specifically on shapefile and DHS data.  For preparation of population rasters, please reference the vignette 'Urban Fraction for Stratified Beta-binomial Model'. The R scripts and vignettes are hosted under Github repo https://github.com/wu-thomas/SUMMER-DHS/. 
-Note that our pipeline is **NOT** aimed to replicate the estimates presented in DHS final report. Due to distinctions in methods, our estimates will **NOT** be exactly the same as DHS estimates, but they will be consistent.  For replicating estimates in DHS report, please use R package DHS.rates. 
+Note that our pipeline is **not** aimed to replicate the estimates presented in DHS final report. Due to distinctions in methods, our estimates will **not** be exactly the same as DHS estimates, but they will be consistent.  For replicating estimates in DHS report, please use R package DHS.rates. 
 
 # Pipeline Overview
 
