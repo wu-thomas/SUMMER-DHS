@@ -18,6 +18,8 @@ The pipeline is structured as three parts:
 
 The detailed instruction about implementing the scripts in order is:
 
+0. Make sure your R version is at least 4.1.0 (also RStudio is using R 4.1.0 or more recent version). Otherwise, installation of dependent packages might fail. 
+
 1. Create a new directory and put the entire folder "Rcode" and the script named "create_folder.R" into the directory. After this step, the folder structure will look like: 
 
 
@@ -53,7 +55,7 @@ Next, we will run scripts under “Rcode/UR Pipeline” sequentially. Run them i
 
 7. To replicate the plots in the DHS report, run scripts in the folder named "Rcode/Visualization". "3UR_ratio_report.R"  produces Figure X.4 in the appendix of the main report. "compare_report.R" creates Figure X.2 in the appendix of the main report. "report_main.R" generates the rest of figures appeared in the appendix.  All figures are stored under "Results/country/Figures/Report".
 
-We use R to conduct all the statistical analysis. Packages and dependencies could be installed as following through the pipeline. Most packages are found under cran. For two important packages 'INLA' and 'SUMMER', we recommend using the following installing approach.
+We use R to conduct all the statistical analysis. Packages and dependencies could be installed as following through the pipeline. Most packages are found under cran. For two important packages '**INLA**' and '**SUMMER**', we recommend using the following installing approach. The two packages are constantly being updated. For installation related issues, please visit https://github.com/hrue/r-inla/issues or contact us.
 
 
 ```r
