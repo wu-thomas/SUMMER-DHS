@@ -162,9 +162,12 @@ save(admin1.names, admin2.names, file = paste0(poly.path, '/', country, '_Amat_N
 
 # read DHS data
 dat.tmp <- getBirths(filepath = paste0(country,'/dhsStata/',dhsStata.file),
-                     surveyyear = survey_year,
+                     surveyyear = survey_year, 
                      year.cut = seq(beg.year, end.year + 1, 1),
                      strata = c("v022"), compact = T)
+# Some DHS surveys does not use Gregorian calendar, such as Ethiopia. Use option cmc.adjust to adjust time (for details check getBirths function in SUMMER documentation).
+
+
 
 # retrieve the some columns of the full data
 dat.tmp <- dat.tmp[ ,c("v001", "v024", "time", "total",
