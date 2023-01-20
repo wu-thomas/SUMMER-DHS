@@ -117,6 +117,9 @@ saveRDS(fit.natl.strat, paste0('Betabinomial/',
 natl.urb.weights <- readRDS(paste0('UR/U5_fraction/','natl_urban_weights.rds'))
 natl.urb.weights$rural <- 1- natl.urb.weights$urban
 
+# rename the columns for urban/rural if the names do not match urban/rural factor labels in the model
+# names(natl.urb.weights)[3:4] <- c("Urban","Rural")
+
 # sample for national U5MR estimators and compute the estimates
 res.natl.strat <- getSmoothed(inla_mod = fit.natl.strat, 
                               year_range = beg.year:end.year, 
@@ -150,6 +153,9 @@ saveRDS(fit.strat.admin1,paste0('Betabinomial/',
 
 # load the admin1 urban population fraction, this is needed to weight urban/rural estimators
 weight.strata.adm1 <- readRDS(paste0('UR/U5_fraction/','admin1_urban_weights.rds'))
+
+# rename the columns for urban/rural if the names do not match urban/rural factor labels in the model
+# names(weight.strata.adm1)[3:4] <- c("Urban","Rural")
 
 # sample for national U5MR estimators and compute the estimates
 res.strat.admin1 <- getSmoothed(inla_mod = fit.strat.admin1, 
@@ -186,6 +192,9 @@ saveRDS(fit.strat.admin2,paste0('Betabinomial/',
 
 # load the admin2 urban population fraction, this is needed to weight urban/rural estimators
 weight.strata.adm2 <- readRDS(paste0('UR/U5_fraction/','admin2_urban_weights.rds'))
+
+# rename the columns for urban/rural if the names do not match urban/rural factor labels in the model
+# names(weight.strata.adm2)[3:4] <- c("Urban","Rural")
 
 # sample for admin2 U5MR estimators and compute the estimates
 res.strat.admin2 <- getSmoothed(inla_mod = fit.strat.admin2, 
