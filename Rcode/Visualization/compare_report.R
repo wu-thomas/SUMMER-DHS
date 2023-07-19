@@ -173,7 +173,7 @@ adm_link$admin1_idx<- admin1.names$Internal[adm1_match]
 pop_adm2<-function(adm2.shp, wp,admin_pop_dat){
   
   # make sure polygons have same crs as population raster
-  adm2.shp <- spTransform(adm2.shp, wp@crs)
+  adm2.shp <- spTransform(adm2.shp, crs(wp)) # comment out the line if throws error
   
   # list of admin2 regions
   adm2.names <- adm2.shp$NAME_2
