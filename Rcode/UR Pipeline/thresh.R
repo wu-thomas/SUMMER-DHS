@@ -273,7 +273,7 @@ save(confmatrix_uncrc,file='UR/Threshold/confmatrix_uncrc.rda')
 get_subnatl_frac<-function(adm.names,adm.idx,wp,poly_file,wp_adm=NULL,
                            urb_vec){
   
-  poly_file <- spTransform(poly_file, wp@crs)
+  poly_file <- spTransform(poly_file, crs(wp)) # comment out the line if throws error
   
   
   
